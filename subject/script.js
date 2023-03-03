@@ -1,27 +1,35 @@
-// NOTE: 
-// This is the starter file for a blog post "How to build a calculator". You can follow the lesson at https://zellwk.com/blog/calculator-part-1
+/**MAUREL DAN */
 
-// # START EDITING YOUR JAVASCRIPT HERE
-// ===============
+start = true;
+s = 0;
+current_num = "";
+last_op = '+';
 
 document.addEventListener("DOMContentLoaded", () => 
-{   
-    let s = 0 ;
-    let current_num = "" ;
-
+{
     for (let num of document.getElementsByClassName("number")) 
     {
         num.addEventListener("click",(event)=>
         {
             document.getElementById("display").textContent = document.getElementById("display").textContent + event.target.textContent;
-            current_num = current_cum + event.target.textContent
+            current_num = current_num + event.target.textContent ;
         }
         )
     };
 
     document.getElementById("clear").addEventListener("click",()=>
         {
-            document.getElementById("display").textContent = ""
+            document.getElementById("display").textContent = "";
+            current_num = "";
+            start = true;
+            s = 0;
+        }
+    );
+
+    document.getElementById("decimal").addEventListener("click",()=>
+        {
+            document.getElementById("display").textContent = document.getElementById("display").textContent + ".";
+            current_num = current_num + ".";
         }
     );
 
@@ -30,13 +38,45 @@ document.addEventListener("DOMContentLoaded", () =>
         ope.addEventListener("click",(event)=>
         {
             document.getElementById("display").textContent = document.getElementById("display").textContent + event.target.textContent ;
+            switch (event.target.textContent) {
+                case "+":
+                    {s = s + parseFloat(current_num);
+                    current_num = "";
+                    last_op = "+";
+                    start=false}
+                    break
+                case "-":
+                    {if (start==true) {
+                        s = parseFloat(current_num);
+                        current_num = "";
+                        start = false ;
+                        last_op = "-"}
+                        
+                    else {
+                        s = s - parseFloat(current_num);
+                        current_num = "";
+                        last_op = "-"}
+                    break}
+            }
         }
         )
     };
 
     document.getElementById("equal").addEventListener("click",()=>
-    {
-        document.getElementById("display").textContent = document.getElementById("display").textContent + "=" + s
+    {   
+        switch (last_op) {
+            case "+":
+                {s = s + parseFloat(current_num);
+                current_num = "";
+                last_op = '+'}
+                break
+            case "-":
+                {s = s - parseFloat(current_num);
+                current_num = "";
+                last_op = '-'}
+                break}
+
+        document.getElementById("display").textContent = document.getElementById("display").textContent + "=" + s 
     }
 );
 
